@@ -6,5 +6,5 @@
 **/build/
 **/install/
 **/log/
-core
+/core
 *.log
