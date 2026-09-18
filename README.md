@@ -23,11 +23,20 @@ The simulation image is large. The first Gazebo launch also downloads Fuel world
 
 ## Simulation
 
-See [`drone_gazebo/README.md`](drone_gazebo/README.md).
+Default world is the Edgar Mine stress case:
 
 ```bash
 docker compose -f docker-compose.sim.yml up
 ```
+
+Controlled maze (intended regime):
+
+```bash
+docker compose -f docker-compose.sim.yml run --rm gazebo \
+  ros2 launch drone_simulation crazyflie_ideal_maze.launch.py
+```
+
+Teleop is in [`drone_gazebo/README.md`](drone_gazebo/README.md).
 
 ## PIL
 
@@ -39,7 +48,7 @@ docker compose -f docker-compose.pil.yml up
 
 Mission control is at [http://localhost:8000/](http://localhost:8000/). **Start** / **Stop** run explore-and-return; **Return Home** forces return. The map is the event graph in the odometry frame (junctions, selected/rejected arms, dead ends, clearance). Profile Matching overlays the live radial profile on a stored landmark during return.
 
-For the matching 3D view, load `config/rviz/pil.rviz`:
+For the matching 3D view:
 
 ```bash
 docker exec drone_gazebo rviz2 -d /config/rviz/pil.rviz
