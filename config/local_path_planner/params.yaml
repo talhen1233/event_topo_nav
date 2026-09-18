@@ -1,0 +1,134 @@
+/**:
+  ros__parameters:
+    # I/O
+    control_rate: 20.0
+    map_topic: "/map_pointcloud"
+    odom_topic: "/drone/state_estimate"
+    cmd_vel_topic: "/crazyflie/cmd_vel_user"
+    state_topic: "/local_planner/state"
+    debug_state_topic: "/local_planner/debug_state"
+    verbose: true
+    debug_markers: true
+
+    # Graph tracking
+    graph_topic: "/skeleton_graph/json"
+    graph_target_topic: "/navigation/graph_target"
+    # Live nearby-junction confidence from the event system.
+    junction_potential_topic: "/navigation_events/junction_potential"
+    graph_stale_timeout_s: 1.0
+    edge_hysteresis_m: 0.3
+    graph_lookahead_m: 0.8
+    # Average graph heading over this distance to suppress local S-shaped bends.
+    graph_heading_fit_distance_m: 1.5
+    # Fit arm direction from skeleton points in this radial range.
+    arm_direction_fit_min_m: 0.35
+    arm_direction_fit_max_m: 2.0
+    # Require this much observed arm before trusting its fitted direction.
+    arm_direction_fit_min_span_m: 0.8
+    graph_centering_enabled: true
+    graph_center_k_y: 1.0
+    graph_center_deadband_m: 0.03
+    graph_center_vy_max: 0.15
+    graph_center_filter_tau_s: 0.4
+
+    # Yaw intent tracking
+    junction_approach_distance_m: 1.5
+    junction_slowdown_distance_m: 1.5
+    # Hold before a junction until navigation commits a stabilized arm.
+    uncommitted_junction_hold_distance_m: 0.4
+    # Escape a rejected/flickering junction with controlled forward creep.
+    uncommitted_junction_hold_timeout_s: 3.0
+    uncommitted_junction_creep_speed_scale: 0.15
+    uncommitted_junction_hold_reset_s: 1.0
+    # Gradually slow between weak evidence and the event commit threshold.
+    junction_potential_slowdown_start: 0.1
+    junction_potential_full_slowdown: 0.8
+    junction_potential_min_speed_scale: 0.35
+    junction_potential_timeout_s: 1.5
+    # Recover at an actual graph endpoint even when no nearby wall is detected.
+    leaf_stall_near_m: 0.30
+    leaf_stall_timeout_s: 2.0
+    leaf_stall_progress_m: 0.10
+    min_arm_length_m: 0.3
+    yaw_intent_num_bins: 36
+    yaw_intent_potential_tau_s: 1.5
+    yaw_intent_candidate_sigma_deg: 18.0
+    yaw_intent_switch_margin: 0.35
+    yaw_intent_slew_rate_rps: 0.9
+    commit_support_angle_deg: 40.0
+    # Confirm selected-arm entry after this much forward travel from the junction.
+    commit_entry_distance_m: 0.8
+    # Maximum cross-track error allowed when confirming selected-arm entry.
+    commit_entry_cross_track_m: 0.6
+    # Drop a stale arm lock beyond this distance from the junction center.
+    commit_max_distance_m: 4.0
+    # Expire an unsupported commit after waiting near the junction.
+    commit_lock_acquisition_timeout_s: 3.0
+    # Smooth geometric updates while preserving the committed arm identity.
+    arm_direction_smoothing_tau_s: 0.35
+    arm_direction_max_rate_deg_s: 25.0
+    # Ignore line fits whose principal direction is poorly constrained.
+    arm_direction_min_confidence: 0.65
+
+    # Point cloud sector extraction
+    xy_max_range: 2.0
+    horiz_pitch_half_deg: 30.0
+    sensor_timeout_s: 0.8
+    front_yaw_half_deg: 15.0
+    back_yaw_half_deg: 30.0
+    side_yaw_half_deg: 30.0
+    up_pitch_min_deg: 30.0
+    down_pitch_min_deg: 30.0
+    side_dist_percentile: 10.0
+    min_points_per_dir: 10
+    dist_filter_tau_s: 0.30
+    vy_filter_tau_s: 0.20
+
+    # Lateral centering
+    d0_side_m: 1.0
+    k_y: 1.0
+    center_deadband_m: 0.10
+    vy_max: 0.3
+
+    # Height control
+    d0_ceiling_m: 0.8
+    d0_floor_m: 1.0
+    k_floor: 1.0
+    k_ceiling: 1.0
+    vz_max: 0.5
+    vertical_dist_percentile: 15.0
+    vz_filter_tau_s: 0.30
+    vz_deadband_mps: 0.02
+
+    # Safety / dead-end detection (halved obstacle standoffs)
+    front_block_dist_m: 0.35
+    front_clear_dist_m: 0.75
+    front_block_hysteresis_m: 0.20
+    front_block_width_margin_m: 0.075
+    front_block_dynamic_max_m: 1.2
+    front_width_filter_tau_s: 0.25
+    front_stop_dist_m: 0.15
+    front_slow_dist_m: 0.5
+    safety_max_decel_mps2: 2.0
+    safety_reaction_time_s: 0.25
+    vehicle_radius_m: 0.15
+    safety_stop_margin_m: 0.10
+    safety_slow_margin_m: 0.40
+    open_dist_m: 1.5
+    block_debounce_s: 0.25
+    dead_end_time_s: 1.0
+    turn_search_max_yaw_deg: 70.0
+
+    # Forward speed
+    v_nom: 0.6
+    vx_max: 0.6
+
+    # Yaw tracking
+    yaw_kp: 0.55
+    yaw_rate_max_rps: 0.4
+    yaw_align_gate_rad: 0.4
+
+    # Smoothing
+    max_forward_accel_mps2: 0.2
+    max_lateral_accel_mps2: 0.25
+    max_lin_acc_mps2: 0.5

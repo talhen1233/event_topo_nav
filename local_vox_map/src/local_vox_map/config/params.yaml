@@ -1,0 +1,32 @@
+/**:
+  ros__parameters:
+    map_frame: "odom"
+    voxel_size: 0.15
+    shift_threshold: 3.0
+    region_size: 10.0
+    map_publish_rate: 5.0
+    sensor_cloud_timeout_s: 1.25
+    min_fresh_sensor_clouds: 1
+    max_tf_fallback_lag_s: 0.08
+
+    min_votes: 4
+    consistency_time_thresh: 0.5
+    min_consistency: 3
+    max_consistency: 20.0
+    consistency_decay_rate: 0.5
+    vote_decay_rate: 0.5
+    decay_delay: 0.0
+    confidence_decay_bonus: 1.0
+    confidence_decay_scale: 0.15
+    voxel_ttl_s: 5.0
+    of_degraded_voxel_ttl_s: 4.0
+    of_degraded_topic: "/drone/odometry/of_degraded"
+    of_degraded_timeout_s: 1.0
+
+    keep_ratio: 1.0
+    crop_enabled: true
+    z_crop_max: 3.0
+    min_distance: 0.1
+
+    odom_topic: "/drone/state_estimate"
+    map_topic: "/map_pointcloud"

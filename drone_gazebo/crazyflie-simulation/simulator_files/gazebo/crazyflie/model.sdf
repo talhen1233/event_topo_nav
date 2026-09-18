@@ -1,0 +1,623 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.8">
+  <model name="crazyflie">
+    <link name="crazyflie/body">
+      <pose> 0 0 17.425E-3 0 0 0</pose>
+      <gravity>false</gravity>
+      <kinematic>true</kinematic>
+      <inertial>
+        <mass>0.025</mass>
+        <inertia>
+          <ixx>16.571710E-06</ixx>
+          <iyy>16.655602E-06</iyy>
+          <izz>29.261652E-06</izz>
+          <ixy>0.830806E-06</ixy>
+          <ixz>0.718277E-06</ixz>
+          <iyz>1.800197E-06</iyz>
+        </inertia>
+      </inertial>
+
+      <visual name="crazyflie/body_visual">
+        <geometry>
+          <mesh>
+            <uri>../../../meshes/collada_files/cf2_assembly.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+
+      <sensor name="imu_sensor" type="imu">
+        <plugin filename="gz-sim-imu-system" name="gz::sim::systems::Imu"/>
+        <topic>/crazyflie/imu/data</topic>
+        <update_rate>100</update_rate>
+        <always_on>true</always_on>
+        <visualize>false</visualize>
+        <pose>0 0 0 0 0 0</pose>
+        <ignition_frame_id>imu_link</ignition_frame_id>
+        <imu>
+          <angular_velocity>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>2e-4</stddev>
+                <bias_mean>7.5e-06</bias_mean>
+                <bias_stddev>8e-07</bias_stddev>
+              </noise>
+            </z>
+          </angular_velocity>
+          <linear_acceleration>
+            <x>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </x>
+            <y>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </y>
+            <z>
+              <noise type="gaussian">
+                <mean>0.0</mean>
+                <stddev>1.7e-2</stddev>
+                <bias_mean>0.1</bias_mean>
+                <bias_stddev>0.001</bias_stddev>
+              </noise>
+            </z>
+          </linear_acceleration>
+        </imu>
+      </sensor>
+
+      <light name="front_spotlight" type="spot">
+        <pose>0.1 0 0 0 0 0</pose>
+        <diffuse>1.0 1.0 1.0 1.0</diffuse>
+        <specular>1.0 1.0 1.0 1.0</specular>
+        <attenuation>
+          <range>50</range>
+          <constant>0.1</constant>
+          <linear>0.01</linear>
+          <quadratic>0.001</quadratic>
+        </attenuation>
+        <direction>1 0 0</direction>
+        <spot>
+          <inner_angle>0.5</inner_angle>
+          <outer_angle>1.0</outer_angle>
+          <falloff>1.0</falloff>
+        </spot>
+        <cast_shadows>true</cast_shadows>
+        <visualize>false</visualize>
+      </light>
+
+      <light name="bottom_spotlight" type="spot">
+        <pose>0 0 -0.05 0 1.57 0</pose>
+        <diffuse>1 1 1 1</diffuse>
+        <specular>1 1 1 1</specular>
+        <attenuation>
+          <range>30</range>
+          <constant>0.1</constant>
+          <linear>0.01</linear>
+          <quadratic>0.001</quadratic>
+        </attenuation>
+        <direction>1 0 0</direction>
+        <spot>
+          <inner_angle>1.2</inner_angle>
+          <outer_angle>1.6</outer_angle>
+          <falloff>1.0</falloff>
+        </spot>
+        <cast_shadows>true</cast_shadows>
+        <visualize>false</visualize>
+      </light>
+
+      <sensor name="bottom_camera" type="camera">
+        <pose>0 0 -0.05 0 1.57 0</pose>
+        <camera>
+
+          <horizontal_fov>1.7977</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>400</height>
+            <format>L8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+          <lens>
+
+            <type>equidistant</type>
+            <scale_to_hfov>true</scale_to_hfov>
+
+            <intrinsics>
+              <fx>253.7</fx>
+              <fy>253.7</fy>
+              <cx>320.0</cx>
+              <cy>200.0</cy>
+              <skew>0.0</skew>
+            </intrinsics>
+          </lens>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>/crazyflie/camera/bottom</topic>
+        <ignition_frame_id>bottom_camera_link</ignition_frame_id>
+      </sensor>
+
+      <sensor name="third_person_camera" type="camera">
+
+        <pose>-0.8 0 0.35 0 0.3 0</pose>
+        <camera>
+          <horizontal_fov>1.57</horizontal_fov>
+          <image>
+            <width>640</width>
+            <height>480</height>
+            <format>R8G8B8</format>
+          </image>
+          <clip>
+            <near>0.1</near>
+            <far>100</far>
+          </clip>
+        </camera>
+        <always_on>1</always_on>
+        <update_rate>30</update_rate>
+        <visualize>true</visualize>
+        <topic>/crazyflie/camera/third_person</topic>
+        <ignition_frame_id>third_person_camera_link</ignition_frame_id>
+      </sensor>
+
+      <sensor name="depth_front" type="gpu_lidar">
+        <pose>0.1 0 0 0 0 0</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/front</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>front_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="depth_back" type="gpu_lidar">
+        <pose>-0.1 0 0 0 0 3.14159</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/back</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>back_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="depth_left" type="gpu_lidar">
+        <pose>0 0.1 0 0 0 1.57</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/left</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>left_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="depth_right" type="gpu_lidar">
+        <pose>0 -0.1 0 0 0 -1.57</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/right</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>right_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="depth_top" type="gpu_lidar">
+        <pose>0 0 0.05 0 -1.57 0</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/top</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>top_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="depth_bottom" type="gpu_lidar">
+        <pose>0 0 -0.05 0 1.57 0</pose>
+        <update_rate>15</update_rate>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>8</samples>
+              <min_angle>-0.3927</min_angle>
+              <max_angle>0.3927</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.02</min>
+            <max>10.0</max>
+            <resolution>0.001</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </ray>
+        <always_on>true</always_on>
+        <topic>/crazyflie/depth_camera/bottom</topic>
+        <visualize>false</visualize>
+        <gz_frame_id>bottom_depth_link</gz_frame_id>
+      </sensor>
+
+      <sensor name="height_lidar" type="gpu_lidar">
+        <pose>0 0 -0.05 0 1.57 0</pose>
+        <topic>/crazyflie/lidar/height</topic>
+        <update_rate>50</update_rate>
+        <lidar>
+          <scan>
+            <horizontal>
+              <samples>1</samples>
+              <resolution>1</resolution>
+              <min_angle>0.0</min_angle>
+              <max_angle>0.0</max_angle>
+            </horizontal>
+            <vertical>
+              <samples>1</samples>
+              <min_angle>0.0</min_angle>
+              <max_angle>0.0</max_angle>
+            </vertical>
+          </scan>
+          <range>
+            <min>0.05</min>
+            <max>18</max>
+            <resolution>0.01</resolution>
+          </range>
+          <noise>
+            <type>gaussian</type>
+            <mean>0.0</mean>
+            <stddev>0.01</stddev>
+          </noise>
+          <visibility_mask>4294967295</visibility_mask>
+        </lidar>
+        <always_on>1</always_on>
+        <visualize>true</visualize>
+        <ignition_frame_id>height_lidar_link</ignition_frame_id>
+      </sensor>
+    </link>
+    <link name="crazyflie/m1_prop">
+      <pose>0.031 -0.031 0.021 0 0 0</pose>
+    <gravity>false</gravity>
+    <kinematic>true</kinematic>
+      <inertial>
+        <mass>0.0008</mass>
+        <inertia>
+          <ixx>8.33333E-09</ixx>
+          <iyy>1.08333E-07</iyy>
+          <izz>1.13333E-07</izz>
+        </inertia>
+      </inertial>
+      <visual name="crazyflie/m1_visual">
+        <geometry>
+          <mesh>
+            <uri>../../../meshes/collada_files/ccw_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <link name="crazyflie/m2_prop">
+      <pose>-0.031 -0.031 0.021 0 0 0</pose>
+    <gravity>false</gravity>
+    <kinematic>true</kinematic>
+      <inertial>
+        <mass>0.0008</mass>
+        <inertia>
+          <ixx>8.33333E-09</ixx>
+          <iyy>1.08333E-07</iyy>
+          <izz>1.13333E-07</izz>
+        </inertia>
+      </inertial>
+      <visual name="crazyflie/m2_visual">
+        <geometry>
+          <mesh>
+            <uri>../../../meshes/collada_files/cw_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <link name="crazyflie/m3_prop">
+      <pose>-0.031 0.031 0.021 0 0 0</pose>
+    <gravity>false</gravity>
+    <kinematic>true</kinematic>
+      <inertial>
+        <mass>0.0008</mass>
+        <inertia>
+          <ixx>8.33333E-09</ixx>
+          <iyy>1.08333E-07</iyy>
+          <izz>1.13333E-07</izz>
+        </inertia>
+      </inertial>
+      <visual name="crazyflie/m3_visual">
+        <geometry>
+          <mesh>
+            <uri>../../../meshes/collada_files/ccw_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <link name="crazyflie/m4_prop">
+      <pose>0.031 0.031 0.021 0 0 0</pose>
+    <gravity>false</gravity>
+    <kinematic>true</kinematic>
+      <inertial>
+        <mass>0.0008</mass>
+        <inertia>
+          <ixx>8.33333E-09</ixx>
+          <iyy>1.08333E-07</iyy>
+          <izz>1.13333E-07</izz>
+        </inertia>
+      </inertial>
+      <visual name="crazyflie/m4_visual">
+        <geometry>
+          <mesh>
+            <uri>../../../meshes/collada_files/cw_prop.dae</uri>
+          </mesh>
+        </geometry>
+      </visual>
+    </link>
+    <joint name="crazyflie/m1_joint" type="revolute">
+      <child>crazyflie/m1_prop</child>
+      <parent>crazyflie/body</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    <joint name="crazyflie/m2_joint" type="revolute">
+      <child>crazyflie/m2_prop</child>
+      <parent>crazyflie/body</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    <joint name="crazyflie/m3_joint" type="revolute">
+      <child>crazyflie/m3_prop</child>
+      <parent>crazyflie/body</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    <joint name="crazyflie/m4_joint" type="revolute">
+      <child>crazyflie/m4_prop</child>
+      <parent>crazyflie/body</parent>
+      <axis>
+        <xyz>0 0 1</xyz>
+      </axis>
+    </joint>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>crazyflie</robotNamespace>
+      <jointName>crazyflie/m1_joint</jointName>
+      <linkName>crazyflie/m1_prop</linkName>
+      <turningDirection>ccw</turningDirection>
+      <maxRotVelocity>2618</maxRotVelocity>
+      <motorConstant>0.0</motorConstant>
+      <momentConstant>0.0</momentConstant>
+      <rotorDragCoefficient>0.0</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/0</motorSpeedPubTopic>
+      <motorNumber>0</motorNumber>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>crazyflie</robotNamespace>
+      <jointName>crazyflie/m2_joint</jointName>
+      <linkName>crazyflie/m2_prop</linkName>
+      <turningDirection>cw</turningDirection>
+      <maxRotVelocity>2618</maxRotVelocity>
+      <motorConstant>0.0</motorConstant>
+      <momentConstant>0.0</momentConstant>
+      <rotorDragCoefficient>0.0</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/1</motorSpeedPubTopic>
+      <motorNumber>1</motorNumber>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>crazyflie</robotNamespace>
+      <jointName>crazyflie/m3_joint</jointName>
+      <linkName>crazyflie/m3_prop</linkName>
+      <turningDirection>ccw</turningDirection>
+      <maxRotVelocity>2618</maxRotVelocity>
+      <motorConstant>0.0</motorConstant>
+      <momentConstant>0.0</momentConstant>
+      <rotorDragCoefficient>0.0</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/2</motorSpeedPubTopic>
+      <motorNumber>2</motorNumber>
+      <motorType>velocity</motorType>
+    </plugin>
+    <plugin
+      filename="gz-sim-multicopter-motor-model-system"
+      name="gz::sim::systems::MulticopterMotorModel">
+      <robotNamespace>crazyflie</robotNamespace>
+      <jointName>crazyflie/m4_joint</jointName>
+      <linkName>crazyflie/m4_prop</linkName>
+      <turningDirection>cw</turningDirection>
+      <maxRotVelocity>2618</maxRotVelocity>
+      <motorConstant>0.0</motorConstant>
+      <momentConstant>0.0</momentConstant>
+      <rotorDragCoefficient>0.0</rotorDragCoefficient>
+      <rollingMomentCoefficient>0.0</rollingMomentCoefficient>
+      <rotorVelocitySlowdownSim>20</rotorVelocitySlowdownSim>
+      <commandSubTopic>command/motor_speed</commandSubTopic>
+      <motorSpeedPubTopic>motor_speed/3</motorSpeedPubTopic>
+      <motorNumber>3</motorNumber>
+      <motorType>velocity</motorType>
+    </plugin>
+
+    <plugin
+      filename="libignition-gazebo-velocity-control-system.so"
+      name="ignition::gazebo::systems::VelocityControl">
+      <topic>/crazyflie/cmd_vel</topic>
+    </plugin>
+
+    <plugin
+      filename="libignition-gazebo-odometry-publisher-system.so"
+      name="ignition::gazebo::systems::OdometryPublisher">
+      <dimensions>3</dimensions>
+      <odom_publish_frequency>100</odom_publish_frequency>
+    </plugin>
+  </model>
+</sdf>

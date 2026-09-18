@@ -1,0 +1,17 @@
+/**:
+  ros__parameters:
+    # Copy this file to a new file, fill out this section with desired parameters, and specify the new file via params_file to override the default params
+    filter_use_compensated_accel: True
+    filter_data_rate: 100
+    filter_imu_data_rate: -1  # (follows the filter_data_rate)
+    filter_odom_data_rate: -1 
+    use_enu_frame: True
+    filter_declination_source: 1
+    use_ros_time: False
+    filter_dynamics_mode: 3
+    filter_enable_vertical_gyro_constraint : False
+    filter_velocity_zupt : False
+    filter_angular_zupt : False
+    use_device_timestamp: True
+    set_baud : True
+    port : "/dev/microstrain"

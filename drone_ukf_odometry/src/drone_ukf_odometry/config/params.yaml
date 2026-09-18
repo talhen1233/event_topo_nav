@@ -1,0 +1,89 @@
+/**:
+  ros__parameters:
+    verbose: true
+
+    # Path publishing
+    publish_track: true
+    route_threshold: 0.5
+    max_path_points: 100
+    tf_broadcast_rate: 15.0
+    publish_position_uncertainty_marker: true
+
+    # 6D KF process noise: [px, py, pz, vx, vy, vz]
+    kf_process_noise_diagonal: [0.002, 0.002, 0.002, 0.05, 0.05, 0.05]
+
+    # ZUPT
+    zero_vel_threshold: 0.05
+    zero_vel_time: 0.25
+    of_zero_vel_threshold: 0.05
+    of_zero_vel_time: 0.25
+    zupt_of_degraded_time_s: 1.0
+    publish_zupt_markers: true
+
+    # Independent ZUPT motion evidence
+    imu_stationary_lpf_alpha: 0.2
+    imu_stationary_acc_threshold: 0.35
+    imu_stationary_tilt_threshold_rad: 0.05
+    imu_stationary_timeout_s: 0.2
+    zupt_exit_imu_motion_time: 0.05
+    zupt_process_noise_scale_position: 0.01
+    zupt_process_noise_scale_velocity: 0.01
+
+    # OF zero-speed gating
+    of_zero_innovation_chi2_gate: 9.0
+    of_zero_imu_motion_R_scale: 100.0
+    of_R_moving_scale: 5.0
+    of_R_speed_inflate_gain: 1.0
+    of_compensate_orientation_in_kf: false
+
+    command_velocity_topic: "/crazyflie/cmd_vel"
+    command_velocity_timeout_s: 0.5
+
+    # OF health and conservative command fallback
+    of_usable_max_variance: 0.49
+    of_degraded_timeout_s: 1.0
+    of_degraded_recovery_frames: 3
+    of_command_mismatch_threshold: 0.25
+    of_command_mismatch_slow_speed_max: 0.3
+    of_command_mismatch_dwell_s: 0.75
+    command_fallback_enabled: true
+    command_fallback_sigma: 0.8
+    command_fallback_gain: 0.1
+    command_fallback_max_speed: 0.8
+    command_fallback_max_gyro_norm: 0.3
+    command_fallback_update_rate_hz: 10.0
+    of_command_mismatch_topic: "/drone/of_command_mismatch"
+    command_fallback_active_topic: "/drone/command_fallback_active"
+    of_degraded_topic: "/drone/odometry/of_degraded"
+    pose_correction_applied_topic: "/localization/pose_correction_applied"
+
+    rpy_of_inflate_gain: 2.0
+    max_imu_update_rate_hz: 0.0
+    imu_transformation: [0.0, -1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0]
+
+    # Lidar altitude + vertical velocity
+    lidar_min_cos: 0.2
+    lidar_mount_height: 0.0
+    alt_lpf_alpha: 0.2
+    R_lidar_alt_init: 0.8
+    R_lidar_vz: 0.0005
+    lidar_alt_gate_sigma: 1.5
+    lidar_update_rate_hz: 0.0
+    lidar_intensity_max: 250.0
+    lidar_R_scale_min: 0.005
+    lidar_R_scale_max: 2.0
+    lidar_vz_gate: 1.2
+    lidar_vz_cov_multiplier: 2500.0
+    lidar_vz_residual_gate: 1.2
+
+    imu_topic: "/crazyflie/imu/acc_derived"
+    lidar_topic: "/crazyflie/lidar/height"
+    of_odometry_topic: "/drone/of_odometry"
+
+    # Event-based XY loop-closure safety gates (2 DoF chi-square, ~99%).
+    pose_correction_innovation_chi2_gate: 9.21
+    # Catastrophic receiver cap; the event matcher owns the dynamic route limit.
+    pose_correction_max_translation_m: 10.0
+
+    debug_print_imu_accels: false
+    debug_print_imu_accels_period_s: 0.0

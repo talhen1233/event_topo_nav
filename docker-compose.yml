@@ -1,0 +1,229 @@
+services:
+  microstrain_imu:
+    image: mapcorecr.azurecr.io/ut-nav/microstrain_inertial_driver
+    container_name: microstrain_imu
+    entrypoint: /entrypoint.sh
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: ros2 launch microstrain_inertial_driver microstrain_launch.py
+              namespace:="/microstrain"
+              params_file:=/config/microstrain_inertial_driver/params_ros2.yaml
+    volumes:
+      - ./config:/config:ro
+      - /dev:/dev
+    network_mode: host
+    privileged: true
+
+  fisheye_bottom:
+    image: mapcorecr.azurecr.io/ut-nav/usb_cam_driver
+    container_name: fisheye_bottom
+    entrypoint: /entrypoint.sh
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: ros2 launch usb_cam_launcher camera_launch.py
+                namespace:=/fisheye_bottom
+                params_path:=/config_usb_cam/params_fisheye_bottom.yaml
+    volumes:
+      - ./config/usb_cam_driver:/config_usb_cam:ro
+      - /dev:/dev
+    network_mode: host
+    privileged: true
+    ipc: host
+
+  sdm15_ros2:
+    image: event_topo_nav/sdm15_ros2:local
+    build:
+      context: ./sdm15_ros2
+      dockerfile: Dockerfile
+      target: release
+    container_name: sdm15_ros2
+    entrypoint: /entrypoint.sh
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command:
+      ros2 launch sdm15_ros2 sdm15_ros2.launch.py
+      update_rate:=50
+      output_freq_hz:=50
+      portname:='/dev/ttyAML1'
+      baudrate:=460800
+      use_filter:=true
+      verbose:=true
+    volumes:
+      - /dev:/dev
+    network_mode: host
+    privileged: true
+    ipc: host
+
+  vl53l8cx_multi_readdr:
+    image: event_topo_nav/vl53l8cx_ros2:local
+    build:
+      context: ./vl53l8cx_ros2
+      dockerfile: Dockerfile
+      target: release
+    privileged: true
+    network_mode: host
+    ipc: host
+    volumes:
+      - /dev:/dev
+    entrypoint: ""
+    command:
+      - python3
+      - /root/ros2_ws/src/vl53l8cx_ros2/vl53l8cx_ros2/scripts/vl53l8cx_multi_readdr.py
+      - --i2c-dev
+      - /dev/i2c-0
+      - --gpio-lines
+      - "${VL53_FRONT_GPIO_LINE:-49}"
+      - "${VL53_BACK_GPIO_LINE:-51}"
+      - "${VL53_RIGHT_GPIO_LINE:-9}"
+      - "${VL53_LEFT_GPIO_LINE:-54}"
+      - "${VL53_UP_GPIO_LINE:-7}"
+      - "${VL53_DOWN_GPIO_LINE:-50}"
+      - --new-addrs
+      - "0x2A"
+      - "0x2B"
+      - "0x2C"
+      - "0x2D"
+      - "0x2E"
+      - "0x2F"
+      - --reset-pulse
+      - "0.05"
+      - --boot-delay
+      - "0.50"
+    restart: "no"
+
+  vl53l8cx_ros2_multi:
+    depends_on:
+      vl53l8cx_multi_readdr:
+        condition: service_completed_successfully
+    image: event_topo_nav/vl53l8cx_ros2:local
+    privileged: true
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    entrypoint: /entrypoint.sh
+    command: >
+      ros2 launch vl53l8cx_ros2 vl53l8cx_ros2_multi.launch.py
+      sensor_names:=front,back,right,left,up,down
+      sensor_addresses:=0x2A,0x2B,0x2C,0x2D,0x2E,0x2F
+      sensor_frame_ids:=vl53l8cx_front,vl53l8cx_back,vl53l8cx_right,vl53l8cx_left,vl53l8cx_up,vl53l8cx_down
+      enable_sensors:=true,true,true,true,true,true
+      i2c_device_path:=/dev/i2c-0
+      publish_depth:=false
+      publish_pointcloud:=true
+      valid_statuses:=5,9
+      verbose:=true
+      executable_path:=/config
+    volumes:
+      - ./config/vl53l8cx:/config:ro
+      - /dev:/dev
+
+  state_publisher:
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    image: mapcorecr.azurecr.io/ut-nav/state_publisher
+    container_name: state_publisher
+    entrypoint: /entrypoint.sh
+    command: ros2 launch state_publisher urdf_launch.launch.py
+              urdf_path:=/urdf/urdf.xml
+              publish_frequency:=50.0
+    volumes:
+      - ./config/urdf:/urdf:ro
+    network_mode: host
+    ipc: host
+
+  of_localization:
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    image: event_topo_nav/of_localization:local
+    build:
+      context: ./of_localization
+      dockerfile: Dockerfile
+      target: release
+    entrypoint: /entrypoint.sh
+    network_mode: host
+    command: >
+      ros2 launch of_localization of_localization.launch.py
+      params_file:=/config/of_localization/params.yaml
+    volumes:
+      - ./config:/config:ro
+
+  drone_ukf_odometry:
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    image: event_topo_nav/drone_ukf_odometry:local
+    build:
+      context: ./drone_ukf_odometry
+      dockerfile: Dockerfile
+      target: release
+    entrypoint: /entrypoint.sh
+    network_mode: host
+    command: >
+      ros2 run drone_ukf_odometry drone_ukf_odometry_node
+      --ros-args --params-file /mounts/params.yaml
+    volumes:
+      - ./config/drone_ukf_odometry:/mounts:ro
+
+  local_vox_map:
+    image: event_topo_nav/local_vox_map:local
+    container_name: local_vox_map
+    build:
+      context: ./local_vox_map
+      dockerfile: Dockerfile
+      target: release
+    entrypoint: /entrypoint.sh
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: >
+      ros2 launch local_vox_map local_vox_map.launch.py
+      params_file:=/config/local_vox_map/params.yaml
+    volumes:
+      - ./config:/config:ro
+
+  local_path_planner:
+    image: event_topo_nav/local_path_planner:local
+    container_name: local_path_planner
+    build:
+      context: ./local_path_planner
+      dockerfile: Dockerfile
+      target: release
+    entrypoint: /entrypoint.sh
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: >
+      ros2 launch local_path_planner local_path_planner.launch.py
+      params_file:=/config/local_path_planner/params.yaml
+    volumes:
+      - ./config:/config:ro
+
+  event_navigation_system:
+    image: event_topo_nav/event_navigation_system:local
+    container_name: event_navigation_system
+    build:
+      context: ./event_navigation_system
+      dockerfile: Dockerfile
+      target: release
+    entrypoint: /entrypoint.sh
+    network_mode: host
+    ipc: host
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+    command: >
+      ros2 launch event_navigation_system smart_event_navigation.launch.py
+      params_file:=/config/event_navigation_system/params.yaml
+    volumes:
+      - ./config:/config:ro

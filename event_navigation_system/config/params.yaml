@@ -1,0 +1,168 @@
+# Combined HIL params for event_system, smart_navigation, and web_dashboard.
+event_system:
+  ros__parameters:
+    processing_interval_s: 0.1
+    angular_resolution_deg: 5.625
+    sensor_max_range_m: 4.0
+    # Per-sensor ranges; length must match sensor_directions_deg. Humble cannot load [].
+    sensor_max_ranges_m: [4.0, 4.0, 4.0, 4.0]
+    confidence_decay_rate: 1.0
+    confidence_rise_rate: 1.0
+    sensor_directions_deg: [0.0, 90.0, 180.0, 270.0]
+    sensor_fov_deg: 45.0
+    voxel_clearance_extra_voxels: 2.0
+    vertical_pitch_half_angle_deg: 5.0
+    profile_pose_delay_s: 0.3
+    # START requires both a persistent profile and a stationary vehicle.
+    start_stability_min_frames: 10
+    start_stability_max_normalized_change: 0.05
+    start_stability_max_speed_mps: 0.05
+    of_degraded_topic: "/drone/odometry/of_degraded"
+    of_degraded_timeout_s: 0.5
+    disable_junction_arm_recheck_when_of_degraded: true
+    median_window: 5
+    gaussian_sigma_samples: 1.3
+    filter_confidence_threshold: 0.6
+    min_event_distance_junction_m: 1.5
+    max_junction_detection_distance_junction_m: 3.0
+    dead_end_terminal_proximity_m: 0.3
+    dead_end_proximity_potential_max: 0.2
+    dead_end_turn_potential_rate: 0.15
+    dead_end_confirmation_threshold: 0.85
+    junction_arm_recheck_radius_m: 0.5
+    junction_arm_recheck_event_distance_m: 0.125
+    junction_arm_recheck_sample_step_m: 0.15
+    junction_arm_recheck_inflate_xy_voxels: 1
+    junction_arm_recheck_inflate_z_voxels: 1
+    junction_arm_recheck_match_max_angle_deg: 45.0
+    junction_arm_recheck_min_hit_voxels: 8
+    voxel_size: 0.15
+    skeleton_grid_width_m: 20.0
+    skeleton_grid_height_m: 20.0
+    skeleton_grid_resolution_m: 0.1
+    graph_min_edge_len_m: 0.2
+    graph_node_merge_radius_m: 0.35
+    # Fit each arm from skeleton points instead of one endpoint vector.
+    arm_direction_fit_min_m: 0.35
+    arm_direction_fit_max_m: 2.0
+    arm_direction_fit_min_span_m: 0.8
+    event_potential_cell_size_m: 3.0
+    debug_level: 2
+    profiling_enabled: false
+    event_potential_increment: 0.4
+    event_potential_decay: 0.2
+    event_potential_threshold: 0.8
+    event_potential_arm_consistency_enabled: true
+    event_potential_arm_worst_match_max_deg: 65.0
+    event_potential_deg_penalty_base: 0.8
+    event_potential_increment_min_scale: 0.3
+    # Require unchanged T/X degree before publishing a junction event.
+    junction_topology_settle_s: 0.8
+    # Publish nearby junction confidence for pre-commit speed control.
+    junction_potential_topic: "/navigation_events/junction_potential"
+    # Repeat the held control signal independently of graph evaluation.
+    junction_potential_publish_interval_s: 0.1
+    # Refresh stabilization while stationary or rotating slowly.
+    max_event_potential_update_interval_s: 1.0
+    # Require physical retreat before another dead-end event can be emitted.
+    dead_end_event_rearm_distance_m: 0.75
+    event_potential_invalidation_suppress_s: 2.0
+    min_event_potential_update_distance_m: 0.2
+    min_event_potential_update_yaw_deg: 45.0
+    store_raw_profile: true
+    fft_num_harmonics: 8
+    default_event_cov_xy: 0.5
+    default_event_cov_z: 0.2
+    event_merge_score_threshold: 0.8
+    event_merge_mahal_threshold: 4.0
+    event_merge_discard_on_mismatch: true
+    event_merge_max_euclidean_distance_m: 3.0
+    event_merge_min_update_interval_s: 5.0
+    event_merge_update_alpha_max: 0.5
+    event_merge_update_use_arm_consistency: true
+    event_merge_update_arm_worst_match_max_deg: 45.0
+    event_merge_update_deg_penalty_base: 0.7
+    descriptor_score_threshold: 0.8
+    active_matching_interval: 0.5
+    passive_matching_interval: 5.0
+    descriptor_weight_spectral: 0.7
+    return_handover_enabled: true
+    return_handover_max_distance_m: 5.0
+    return_handover_margin_base_m: 0.2
+    return_handover_margin_sigma_mult: 1.0
+    return_handover_margin_min_m: 0.1
+    return_handover_margin_max_fraction: 0.4
+    return_handover_competition_delta: 0.05
+    pose_correction_enabled: true
+    pose_correction_min_descriptor_score: 0.85
+    pose_correction_detection_noise_m: 0.3
+    pose_correction_cov_scale: 1.0
+    pose_correction_min_variance_m2: 0.0225
+    pose_correction_translation_base_m: 1.0
+    pose_correction_translation_growth_per_meter: 0.12
+    pose_correction_translation_hard_cap_m: 8.0
+    pose_correction_event_confidence_min: 0.2
+    pose_correction_event_cov_trace_max_xy: 0.5
+
+smart_navigation:
+  ros__parameters:
+    junction_commit_sigma: 3.0
+    junction_commit_min_m: 1.0
+    # Release a commit only after entering and then leaving this extra margin.
+    junction_commit_exit_hysteresis_m: 0.2
+    # Retain approach geometry by traveled path rather than elapsed time.
+    entry_history_max_distance_m: 3.0
+    # Estimate the incoming arm from this distance behind the junction center.
+    entry_history_sample_distance_m: 1.5
+    # Downsample stationary/jittering odometry and reject ambiguous arm matches.
+    entry_history_min_sample_spacing_m: 0.05
+    entry_history_max_arm_error_deg: 35.0
+    battery_reserve: 55.0
+    max_mission_time: 1800.0
+    debug_mode: true
+    inertia_penalty_weight: 0.3
+    return_gate_sigma: 3.0
+    return_gate_min_m: 1.0
+    return_event_sigma_m: 0.6
+    return_qs_normal_m: 0.005
+    return_qt_normal_m2_per_s: 0.00005
+    return_qs_degraded_m: 0.025
+    return_qt_degraded_m2_per_s: 0.0005
+    return_qs_of_degraded_m: 0.1
+    return_qt_of_degraded_m2_per_s: 0.005
+    return_progress_min_step_m: 0.03
+    return_progress_max_step_m: 0.75
+    return_correction_reorder_window_s: 0.1
+    of_degraded_topic: "/drone/odometry/of_degraded"
+    of_degraded_timeout_s: 0.5
+    odom_sigma_degraded_threshold_m: 0.75
+
+web_dashboard:
+  ros__parameters:
+    host: "0.0.0.0"
+    port: 8000
+    client_poll_hz: 5.0
+    enable_mission_controls: true
+    clear_match_after_distance_m: 2.0
+    battery_sim:
+      enabled: true
+      start_percent: 100.0
+      drain_rate_percent_per_s: 0.05
+      publish_hz: 2.0
+      return_home_level: 55.0
+    topic_nav_mode: "/navigation/mode"
+    topic_expected_event: "/navigation/expected_event"
+    topic_return_viz: "/navigation_events/return_viz"
+    topic_pose_correction_policy: "/navigation_events/pose_correction_policy"
+    topic_match_confidence: "/navigation_events/match_confidence"
+    topic_match_found: "/navigation_events/match_found"
+    topic_odometry: "/drone/state_estimate"
+    topic_imu: "/crazyflie/imu/acc_derived"
+    topic_battery: "/battery_level"
+    topic_local_planner_state: "/local_planner/state"
+    topic_local_planner_debug: "/local_planner/debug_state"
+    topic_graph_target: "/navigation/graph_target"
+    topic_event_stored: "/navigation_events/stored"
+    topic_event_detected: "/navigation_events/detected"
+    topic_event_deleted: "/navigation_events/deleted"
+    topic_current_descriptor: "/radial_descriptor/current"

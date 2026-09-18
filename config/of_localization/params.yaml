@@ -1,0 +1,113 @@
+/**:
+  ros__parameters:
+    # Path to the fallback calibration XML when CameraInfo is unavailable.
+    calibration_file: "/config/of/fisheye_calibration_data.xml"
+
+    # Use CameraInfo intrinsics instead of the XML calibration file.
+    use_camera_info: true
+    # CameraInfo topic for the bottom RGB camera.
+    camera_info_topic: "/crazyflie/camera/bottom/camera_info"
+    # Fallback distortion model when loading calibration XML directly.
+    distortion_model: "equidistant"
+
+    # Downsampling factor applied before optical-flow tracking.
+    scale_factor: 1.0
+    # Enable CLAHE during feature detection on low-texture surfaces.
+    use_clahe: true
+    # CLAHE clip limit.
+    clahe_clip_limit: 3.0
+    # CLAHE tile grid size.
+    clahe_tile_grid_size: 8
+
+    # Maximum number of tracked Shi-Tomasi corners.
+    max_corners: 45
+    # Minimum corner quality accepted by Shi-Tomasi.
+    quality_level: 0.01
+    # Minimum spacing between tracked corners.
+    min_distance: 5.0
+    # Shi-Tomasi block size.
+    block_size: 7
+    # Lucas-Kanade tracking window size.
+    win_size: 19
+    # Maximum Lucas-Kanade pyramid level.
+    max_level: 2
+    # Lucas-Kanade termination epsilon.
+    criteria_epsilon: 0.03
+    # Lucas-Kanade termination iteration cap.
+    criteria_count: 7
+    # Frames between forced feature re-detection.
+    redetect_interval: 3
+    # Minimum surviving tracks before re-detection.
+    min_features: 10
+
+    # Enable diagnostic logging and annotated-image publishing.
+    verbose: true
+    # Empirical scale on dt used for flow-to-velocity conversion.
+    time_factor: 1.0
+    # Final multiplicative calibration on recovered velocity.
+    velocity_scale: 1.0
+    # Reject OF updates below this altitude.
+    min_altitude: 0.05
+    # Low-pass filter coefficient for the scalar height sensor.
+    altitude_filter_alpha: 0.3
+
+    # Maximum squared-distance gate around the median flow.
+    flow_distance_threshold: 5.0
+    # Maximum angle to the median flow direction.
+    direction_threshold_deg: 20.0
+
+    # Residual threshold used before covariance inflation.
+    plane_residual_threshold: 2.0
+    # Covariance inflation gain for large residual spread.
+    residual_inflation_k: 0.5
+    # Legacy height-mode covariance inflation for altitude jumps.
+    alt_inflation_k: 1.0
+    # Upper soft clamp for the velocity covariance diagonal.
+    max_covariance: 0.5
+    # Lower floor for the velocity covariance diagonal.
+    min_covariance: 0.0001
+    # Reference inlier count used to down-weight sparse updates.
+    min_inliers_for_low_cov: 5
+    # Covariance inflation gain for divergence spikes.
+    div_inflation_k: 5.0
+
+    # 2x2 camera-to-body velocity transform matrix in row-major order.
+    velocity_transform_matrix: [1.0, 0.0, 0.0, 1.0]
+
+    # Input bottom image topic.
+    image_topic: "/crazyflie/camera/bottom/compressed"
+    # Input scalar height topic.
+    lidar_topic: "/crazyflie/lidar/height"
+    # Input bottom depth point-cloud topic.
+    bottom_depth_points_topic: "/crazyflie/depth_camera/bottom/points"
+    # Input IMU topic used for orientation compensation.
+    imu_topic: "/crazyflie/imu/acc_derived"
+    # Output horizontal speed topic.
+    speed_topic: "/drone/speed"
+    # Output annotated OF image topic.
+    annotated_image_topic: "/camera/bottom/annotated/compressed"
+    # Use IMU orientation to level the depth support and compensate optical-flow scaling.
+    use_orientation_compensation: true
+    # Minimum allowed gravity projection along a feature ray for orientation compensation.
+    min_orientation_ray_projection: 0.15
+    # Output optical-flow odometry topic.
+    odometry_topic: "/drone/of_odometry"
+
+    # Use local depth below this altitude and legacy height above it.
+    depth_fusion_max_altitude: 1.0
+    # Half-band around the switch altitude that must be crossed to change OF mode.
+    depth_fusion_altitude_hysteresis: 0.15
+    # Maximum point-cloud age allowed for local depth fusion.
+    depth_cloud_timeout_sec: 0.15
+    # Minimum number of depth-backed tracks required for local depth mode.
+    depth_min_valid_features: 6
+    # Minimum fraction of depth-backed tracks required for local depth mode.
+    depth_min_valid_ratio: 0.35
+    # Covariance inflation gain when depth coverage is partial.
+    depth_coverage_inflation_k: 2.0
+    # Covariance inflation gain when sampled depths vary strongly.
+    depth_spread_inflation_k: 2.0
+    # Covariance inflation gain for stale depth clouds.
+    depth_staleness_inflation_k: 3.0
+    # Restrict low-altitude feature detection to the depth overlap ROI.
+    use_depth_overlap_roi: true

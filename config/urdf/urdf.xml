@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot name="drone">
+
+  <!-- Base link -->
+  <link name="base_link"/>
+
+  <!-- Fisheye Bottom Sensor -->
+  <link name="fisheye_bottom"/>
+  <joint name="fisheye_bottom_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="fisheye_bottom"/>
+    <origin xyz="0 0 -0.03" rpy="${pi} 0 0"/>
+  </joint>
+
+  <!-- Laser Frame Sensor -->
+  <link name="laser_frame"/>
+  <joint name="laser_frame_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_frame"/>
+    <origin xyz="0 0 -0.03" rpy="${pi} 0 0"/>
+  </joint>
+
+  <!-- IMU Sensor -->
+  <link name="sensor"/>
+  <joint name="sensor_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="sensor"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <!-- VL53L8 Sensor (Forward-facing) -->
+  <link name="vl53l8cx_front"/>
+  <joint name="vl53l8_front_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_front"/>
+    <origin xyz="0.05 0 0" rpy="0 1.5708 0"/>
+  </joint>
+
+  <link name="vl53l8cx_right"/>
+  <joint name="vl53l8_right_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_right"/>
+    <origin xyz="0.0 -0.05 0" rpy="0 1.5708 -1.5708"/>
+  </joint>
+
+  <link name="vl53l8cx_back"/>
+  <joint name="vl53l8_back_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_back"/>
+    <origin xyz="-0.05 0 0" rpy="0 -1.5708 0"/>
+  </joint>
+
+  <link name="vl53l8cx_left"/>
+  <joint name="vl53l8_left_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_left"/>
+    <origin xyz="0.0 0.05 0" rpy="0 1.5708 1.5708"/>
+  </joint>
+
+  <link name="vl53l8cx_up"/>
+  <joint name="vl53l8_up_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_up"/>
+    <origin xyz="0 0 0.03" rpy="0 0 0"/>
+  </joint>
+
+  <link name="vl53l8cx_down"/>
+  <joint name="vl53l8_down_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="vl53l8cx_down"/>
+    <origin xyz="0 0 -0.03" rpy="3.14159 0 0"/>
+  </joint>
+</robot>

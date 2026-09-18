@@ -1,0 +1,11 @@
+.git
+.gitignore
+.devcontainer
+.vscode
+build
+install
+log
+__pycache__
+*.pyc
+*.log
+README.md

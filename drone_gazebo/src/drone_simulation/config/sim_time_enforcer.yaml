@@ -1,0 +1,7 @@
+sim_time_enforcer:
+  ros__parameters:
+    target_nodes:  # nodes that must use /clock
+      - "/simple_kf_odometry_node"
+      - "/fisheye_of_downsampled_minimal_node"
+    use_sim_time_value: true  # value written to target nodes
+    retry_period_s: 1.0  # retry interval while nodes are missing

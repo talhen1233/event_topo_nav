@@ -1,0 +1,93 @@
+x-common: &common
+  network_mode: host
+  ipc: host
+  environment:
+    - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
+    - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+  volumes:
+    - ./config:/config:ro
+  restart: "no"
+
+services:
+  of_localization:
+    <<: *common
+    image: event_topo_nav/of_localization:local
+    container_name: of_localization
+    build:
+      context: ./of_localization
+      dockerfile: Dockerfile
+      target: release
+    command: >
+      ros2 launch of_localization of_localization.launch.py
+      params_file:=/config/of_localization/params.yaml
+      use_sim_time:=true
+
+  drone_ukf_odometry:
+    <<: *common
+    depends_on:
+      of_localization:
+        condition: service_started
+    image: event_topo_nav/drone_ukf_odometry:local
+    container_name: drone_ukf_odometry
+    build:
+      context: ./drone_ukf_odometry
+      dockerfile: Dockerfile
+      target: release
+    command: >
+      ros2 launch drone_ukf_odometry drone_ukf_odometry.launch.py
+      params_file:=/config/drone_ukf_odometry/params.yaml
+      use_sim_time:=true
+
+  local_vox_map:
+    <<: *common
+    depends_on:
+      drone_ukf_odometry:
+        condition: service_started
+    image: event_topo_nav/local_vox_map:local
+    container_name: local_vox_map
+    build:
+      context: ./local_vox_map
+      dockerfile: Dockerfile
+      target: release
+    command: >
+      ros2 launch local_vox_map local_vox_map.launch.py
+      params_file:=/config/local_vox_map/params.yaml
+      use_sim_time:=true
+
+  local_path_planner:
+    <<: *common
+    depends_on:
+      drone_ukf_odometry:
+        condition: service_started
+      local_vox_map:
+        condition: service_started
+    image: event_topo_nav/local_path_planner:local
+    container_name: local_path_planner
+    build:
+      context: ./local_path_planner
+      dockerfile: Dockerfile
+      target: release
+    command: >
+      ros2 launch local_path_planner local_path_planner.launch.py
+      params_file:=/config/local_path_planner/params.yaml
+      use_sim_time:=true
+
+  event_navigation_system:
+    <<: *common
+    depends_on:
+      drone_ukf_odometry:
+        condition: service_started
+      local_vox_map:
+        condition: service_started
+      local_path_planner:
+        condition: service_started
+    image: event_topo_nav/event_navigation_system:local
+    container_name: event_navigation_system
+    build:
+      context: ./event_navigation_system
+      dockerfile: Dockerfile
+      target: release
+    command: >
+      ros2 launch event_navigation_system smart_event_navigation.launch.py
+      params_file:=/config/event_navigation_system/params.yaml
+      use_sim_time:=true

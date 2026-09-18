@@ -1,0 +1,17 @@
+drone_simulation:
+  ros__parameters:
+    odom_topic: "/crazyflie/odometry"
+    imu_out_topic: "/crazyflie/imu/acc_derived"
+    imu_in_topic: "/crazyflie/imu/data"
+    frame_id: "crazyflie/base_link"
+    copy_orientation_from_imu: true  # use IMU orientation when available
+    copy_angular_velocity_from_imu: true  # use IMU gyro when available
+    copy_orientation_from_odom: false  # fallback orientation from odom
+    use_odom_angular_velocity: false  # fallback gyro from odom
+    gravity_m_s2: 9.81  # gravity used for specific force
+
+    enable_acc_noise: true  # add accel noise/bias
+    acc_noise_stddev: 0.017  # white noise [m/s^2]
+    acc_bias_mean: 0.1  # bias mean [m/s^2]
+    acc_bias_stddev: 0.001  # bias std [m/s^2]
+    noise_seed: 0  # RNG seed

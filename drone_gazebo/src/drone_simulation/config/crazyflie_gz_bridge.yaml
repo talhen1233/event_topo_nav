@@ -1,0 +1,101 @@
+- ros_topic_name: "clock"
+  gz_topic_name: "clock"
+  ros_type_name: "rosgraph_msgs/msg/Clock"
+  gz_type_name: "gz.msgs.Clock"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/command/motor_speed"
+  gz_topic_name: "/crazyflie/command/motor_speed"
+  ros_type_name: "actuator_msgs/msg/Actuators"
+  gz_type_name: "gz.msgs.Actuators"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/crazyflie/cmd_vel"
+  gz_topic_name: "/crazyflie/cmd_vel"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: ROS_TO_GZ
+
+- ros_topic_name: "/crazyflie/cmd_vel_user"
+  gz_topic_name: "/crazyflie/cmd_vel_user"
+  ros_type_name: "geometry_msgs/msg/Twist"
+  gz_type_name: "gz.msgs.Twist"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/imu/data"
+  gz_topic_name: "/crazyflie/imu/data"
+  ros_type_name: "sensor_msgs/msg/Imu"
+  gz_type_name: "gz.msgs.IMU"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/camera/bottom"
+  gz_topic_name: "/crazyflie/camera/bottom"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/camera/third_person"
+  gz_topic_name: "/crazyflie/camera/third_person"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/maze/topdown"
+  gz_topic_name: "/maze/topdown"
+  ros_type_name: "sensor_msgs/msg/Image"
+  gz_type_name: "gz.msgs.Image"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/depth_camera/front/points"
+  gz_topic_name: "/crazyflie/depth_camera/front/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/depth_camera/back/points"
+  gz_topic_name: "/crazyflie/depth_camera/back/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/depth_camera/left/points"
+  gz_topic_name: "/crazyflie/depth_camera/left/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/depth_camera/right/points"
+  gz_topic_name: "/crazyflie/depth_camera/right/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/depth_camera/top/points"
+  gz_topic_name: "/crazyflie/depth_camera/top/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/depth_camera/bottom/points"
+  gz_topic_name: "/crazyflie/depth_camera/bottom/points"
+  ros_type_name: "sensor_msgs/msg/PointCloud2"
+  gz_type_name: "gz.msgs.PointCloudPacked"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/lidar/height"
+  gz_topic_name: "/crazyflie/lidar/height"
+  ros_type_name: "sensor_msgs/msg/LaserScan"
+  gz_type_name: "gz.msgs.LaserScan"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/pose"
+  gz_topic_name: "/model/crazyflie/pose"
+  ros_type_name: "geometry_msgs/msg/PoseArray"
+  gz_type_name: "gz.msgs.Pose_V"
+  direction: GZ_TO_ROS
+- ros_topic_name: "/crazyflie/odometry"
+  gz_topic_name: "/model/crazyflie/odometry_with_covariance"
+  ros_type_name: "nav_msgs/msg/Odometry"
+  gz_type_name: "gz.msgs.Odometry"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "/crazyflie/joint_states"
+  gz_topic_name: "/crazyflie/joint_states"
+  ros_type_name: "sensor_msgs/msg/JointState"
+  gz_type_name: "gz.msgs.Model"
+  direction: GZ_TO_ROS

@@ -1,0 +1,16 @@
+.git
+.gitignore
+.devcontainer
+.vscode
+azure-pipelines.yml
+README.md
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/
+**/.ruff_cache/
+**/build/
+**/install/
+**/log/
+**/compose/
+core
+*.log

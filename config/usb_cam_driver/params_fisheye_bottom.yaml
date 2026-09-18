@@ -1,0 +1,13 @@
+/**:
+    ros__parameters:
+      video_device: "/dev/video1"
+      auto_exposure: true
+      framerate: 30.0
+      io_method: "mmap"
+      frame_id: "fisheye_bottom"
+      pixel_format: "mjpeg"
+      image_width: 640
+      image_height: 400
+      camera_name: "fisheye_bottom"
+      camera_info_url: "file:///config_usb_cam/radtan/camera_info_fisheye_bottom.yaml"
+      log_level: "debug"

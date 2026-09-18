@@ -1,0 +1,38 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "brcm,bcm2835";
+
+    fragment@0 {
+        target = <&spidev0>;
+
+        __overlay__ {
+            status = "disabled";
+        };
+    };
+
+    fragment@1 {
+        target = <&spi0>;
+
+        __overlay__ {
+            status = "okay";
+            #address-cells = <1>;
+            #size-cells = <0>;
+
+            stmvl53l8cx:stmv53l8cx@0 {
+                compatible = "st,stmvl53l8cx";
+		        reg = <0>;
+                spi-cpol;
+                spi-cpha;
+                spi-max-frequency = <2000000>;
+                pwr-gpios = <&gpio 16 0>;                
+                irq-gpios = <&gpio 26 2>;
+                status = "okay";
+            };
+        };
+    };
+
+};
+
+

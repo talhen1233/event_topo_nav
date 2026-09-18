@@ -1,0 +1,25 @@
+/**:
+  ros__parameters:
+    input_cmd_vel_topic: "/crazyflie/cmd_vel_user"  # user / teleop command
+    output_cmd_vel_topic: "/crazyflie/cmd_vel"  # VelocityControl plugin
+    odom_topic: "/crazyflie/odometry"  # altitude and attitude feedback
+
+    z_hold_kp: 2.5  # altitude hold P
+    z_hold_kd: 0.0  # altitude hold D
+    z_deadband: 0.001  # |vz| treated as hover
+    max_z_speed: 2.0  # max vertical command [m/s]
+    allow_z_cmd: true  # if false, always hold altitude
+
+    enable_pitch_visual: true  # tilt with forward speed
+    pitch_per_ms_deg: 12.0  # desired pitch [deg] per 1 m/s
+    pitch_max_deg: 25.0  # pitch clamp [deg]
+    pitch_kp: 8.0  # pitch tracking P
+    pitch_kd: 0.0  # pitch tracking D
+    pitch_rate_limit_deg: 180.0  # max pitch rate [deg/s]
+
+    roll_hold_kp: 1.5  # roll-to-zero P
+    roll_hold_kd: 0.0  # roll-to-zero D
+    roll_rate_limit_deg: 90.0  # max roll rate [deg/s]
+
+    update_rate_hz: 30.0  # output publish rate
+    cmd_timeout: 0.5  # s without input before hover

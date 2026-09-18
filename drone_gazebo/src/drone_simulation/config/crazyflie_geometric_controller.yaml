@@ -1,0 +1,44 @@
+crazyflie_firmware_controller:
+  ros__parameters:
+    mass: 0.025  # kg
+    gravity: 9.81  # m/s^2
+    kf: 1.28192e-08  # N/(rad/s)^2
+    km: 0.005964552  # N*m/(rad/s)^2
+    arm_length: 0.046  # m, hub to rotor
+
+    cmd_vel_topic: "/crazyflie/cmd_vel"
+    cmd_zero_deadzone: 0.001  # |cmd| treated as zero
+    cmd_timeout: 0.5  # s without cmd before hover-hold
+    enable_hover_hold: true  # hold when zero/timed out
+
+    kp_pos_xy: 1.0
+    ki_pos_xy: 0.1
+    kd_pos_xy: 0.3
+    kp_pos_z: 4.0
+    ki_pos_z: 0.8
+    kd_pos_z: 1.5
+
+    kp_vel_xy: 2.0
+    ki_vel_xy: 0.2
+    kd_vel_xy: 0.4
+    kp_vel_z: 6.0
+    ki_vel_z: 0.6
+    kd_vel_z: 1.5
+
+    kp_att_rp: 6.0
+    kd_att_rp: 0.15
+    kp_att_yaw: 3.0
+    kd_att_yaw: 0.1
+
+    i_limit_pos_xy: 0.6  # position I clamp
+    i_limit_pos_z: 0.6
+    i_limit_vel_xy: 0.6  # velocity I clamp
+    i_limit_vel_z: 0.6
+
+    max_tilt_deg: 20.0
+    max_acc_xy: 3.0
+    max_acc_z: 6.0
+    max_yaw_rate: 2.0
+
+    motor_min: 0.0  # rad/s
+    motor_max: 2618.0  # rad/s

@@ -1,0 +1,13 @@
+/build
+/install
+/log
+doc/figure_generation/figures
+doc/figure_generation/my_flight
+doc/figure_generation/screenshots
+doc/figure_generation/figures_pipline
+doc/figure_generation/demo_figures
+doc/figure_generation/bag_records
+doc/figure_generation/record_figures
+*.pdf
+*.png
+*.jpg
