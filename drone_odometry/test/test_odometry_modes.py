@@ -1,6 +1,6 @@
 import numpy as np
 
-from drone_ukf_odometry.odometry_modes import (
+from drone_odometry.odometry_modes import (
     OpticalFlowHealthParams,
     OpticalFlowHealthTracker,
     apply_command_velocity_prior,

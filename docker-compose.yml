@@ -154,22 +154,22 @@ services:
     volumes:
       - ./config:/config:ro
 
-  drone_ukf_odometry:
+  drone_odometry:
     environment:
       - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-0}
       - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-    image: event_topo_nav/drone_ukf_odometry:local
+    image: event_topo_nav/drone_odometry:local
     build:
-      context: ./drone_ukf_odometry
+      context: ./drone_odometry
       dockerfile: Dockerfile
       target: release
     entrypoint: /entrypoint.sh
     network_mode: host
     command: >
-      ros2 run drone_ukf_odometry drone_ukf_odometry_node
+      ros2 run drone_odometry drone_odometry_node
       --ros-args --params-file /mounts/params.yaml
     volumes:
-      - ./config/drone_ukf_odometry:/mounts:ro
+      - ./config/drone_odometry:/mounts:ro
 
   local_vox_map:
     image: event_topo_nav/local_vox_map:local

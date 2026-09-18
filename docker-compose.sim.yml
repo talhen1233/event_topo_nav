@@ -22,5 +22,6 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ${HOME}/.gz:/root/.gz
+      - ./config:/config:ro
     command: >
       ros2 launch drone_simulation crazyflie_final_prelim_03.launch.py

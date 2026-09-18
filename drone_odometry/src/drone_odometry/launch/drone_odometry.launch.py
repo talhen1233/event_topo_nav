@@ -9,7 +9,7 @@ from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from launch_ros.parameter_descriptions import ParameterValue
 
-PACKAGE_NAME = "drone_ukf_odometry"
+PACKAGE_NAME = "drone_odometry"
 DEFAULT_CONFIG_FILE = os.path.join(
     get_package_share_directory(PACKAGE_NAME), "config", "params.yaml"
 )
@@ -33,7 +33,7 @@ def generate_launch_description() -> LaunchDescription:
             ),
             Node(
                 package=PACKAGE_NAME,
-                executable="drone_ukf_odometry_node",
+                executable="drone_odometry_node",
                 name="simple_kf_odometry_node",
                 output="screen",
                 emulate_tty=True,

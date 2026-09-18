@@ -2,7 +2,7 @@ from setuptools import setup
 from glob import glob
 import os
 
-package_name = 'drone_ukf_odometry'
+package_name = 'drone_odometry'
 
 setup(
     name=package_name,
@@ -19,12 +19,12 @@ setup(
     zip_safe=True,
     maintainer='talhen',
     maintainer_email='Tal.Hen@mapcore.com',
-    description='TODO: Package description',
+    description='6D linear Kalman-filter odometry',
     license='Apache-2.0',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'drone_ukf_odometry_node = drone_ukf_odometry.kf_odometry_node:main',
+            'drone_odometry_node = drone_odometry.kf_odometry_node:main',
         ],
     },
 )

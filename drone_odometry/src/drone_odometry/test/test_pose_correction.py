@@ -6,8 +6,8 @@ import numpy as np
 from builtin_interfaces.msg import Time
 from geometry_msgs.msg import PoseWithCovarianceStamped
 
-from drone_ukf_odometry.kf_odometry_node import SimpleKFOdometryNode
-from drone_ukf_odometry.pose_correction import innovation_mahalanobis_squared
+from drone_odometry.kf_odometry_node import SimpleKFOdometryNode
+from drone_odometry.pose_correction import innovation_mahalanobis_squared
 
 
 class _Logger:

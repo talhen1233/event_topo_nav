@@ -22,26 +22,26 @@ services:
       params_file:=/config/of_localization/params.yaml
       use_sim_time:=true
 
-  drone_ukf_odometry:
+  drone_odometry:
     <<: *common
     depends_on:
       of_localization:
         condition: service_started
-    image: event_topo_nav/drone_ukf_odometry:local
-    container_name: drone_ukf_odometry
+    image: event_topo_nav/drone_odometry:local
+    container_name: drone_odometry
     build:
-      context: ./drone_ukf_odometry
+      context: ./drone_odometry
       dockerfile: Dockerfile
       target: release
     command: >
-      ros2 launch drone_ukf_odometry drone_ukf_odometry.launch.py
-      params_file:=/config/drone_ukf_odometry/params.yaml
+      ros2 launch drone_odometry drone_odometry.launch.py
+      params_file:=/config/drone_odometry/params.yaml
       use_sim_time:=true
 
   local_vox_map:
     <<: *common
     depends_on:
-      drone_ukf_odometry:
+      drone_odometry:
         condition: service_started
     image: event_topo_nav/local_vox_map:local
     container_name: local_vox_map
@@ -57,7 +57,7 @@ services:
   local_path_planner:
     <<: *common
     depends_on:
-      drone_ukf_odometry:
+      drone_odometry:
         condition: service_started
       local_vox_map:
         condition: service_started
@@ -75,7 +75,7 @@ services:
   event_navigation_system:
     <<: *common
     depends_on:
-      drone_ukf_odometry:
+      drone_odometry:
         condition: service_started
       local_vox_map:
         condition: service_started
