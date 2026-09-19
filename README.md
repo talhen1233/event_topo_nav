@@ -23,17 +23,17 @@ The simulation image is large. The first Gazebo launch also downloads Fuel world
 
 ## Simulation
 
-Default world is the Edgar Mine stress case:
+Default world is the controlled maze:
 
 ```bash
 docker compose -f docker-compose.sim.yml up
 ```
 
-Controlled maze (intended regime):
+Edgar Mine stress case:
 
 ```bash
 docker compose -f docker-compose.sim.yml run --rm gazebo \
-  ros2 launch drone_simulation crazyflie_ideal_maze.launch.py
+  ros2 launch drone_simulation crazyflie_final_prelim_03.launch.py
 ```
 
 Teleop is in [`drone_gazebo/README.md`](drone_gazebo/README.md).
