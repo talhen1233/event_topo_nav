@@ -1,7 +1,7 @@
 # Combined HIL params for event_system, smart_navigation, and web_dashboard.
 event_system:
   ros__parameters:
-    processing_interval_s: 0.1
+    processing_interval_s: 0.2  # 5 Hz event-processing cycle
     angular_resolution_deg: 5.625
     sensor_max_range_m: 4.0
     # Per-sensor ranges; length must match sensor_directions_deg. Humble cannot load [].
